@@ -1,0 +1,1 @@
+php -f app/Migrations/Migrator.php

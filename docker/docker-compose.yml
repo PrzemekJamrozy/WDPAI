@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: "Nginx"
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - ..:/app/
+    depends_on:
+      - php
+    links:
+      - php
+    networks:
+      - wdpai-network
+
+  php:
+    container_name: "PHP"
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    volumes:
+      - ..:/app/
+    networks:
+      - wdpai-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    container_name: "Postgres_database"
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: wdpai
+    ports:
+      - "5432:5432"
+    networks:
+      - wdpai-network
+
+networks:
+  wdpai-network:
