@@ -4,5 +4,5 @@ namespace Migrations;
 
 interface Migration
 {
-    public function migrate();
+    public function migrate(): void;
 }

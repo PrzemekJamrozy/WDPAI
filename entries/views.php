@@ -3,4 +3,5 @@
 use Controllers\ViewControllers\AuthViewController;
 use Router\Router;
 
-Router::get('/', [AuthViewController::class, 'showTestFile']);
+Router::get('/login', [AuthViewController::class, 'loginView']);
+Router::get('/register', [AuthViewController::class, 'registerView']);

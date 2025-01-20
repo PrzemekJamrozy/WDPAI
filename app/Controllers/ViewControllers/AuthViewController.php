@@ -4,7 +4,11 @@ namespace Controllers\ViewControllers;
 
 class AuthViewController extends BaseViewController
 {
-    public function showTestFile(){
-        $this->render('test', ['test' => 123]);
+    public function loginView():void{
+        $this->render('login');
+    }
+
+    public function registerView():void{
+        $this->render('register');
     }
 }

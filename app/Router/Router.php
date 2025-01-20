@@ -1,5 +1,10 @@
 <?php
+
 namespace Router;
+
+use Controllers\ViewControllers\CommonViewController;
+use Exception;
+use Throwable;
 use Utils\Helpers\RouterHelpers;
 
 class Router
@@ -20,19 +25,24 @@ class Router
         Router::$routes["POST"][] = Router::createRoute($url, $action);
     }
 
-    private static function createRoute(string $url, array $action): array{
+    private static function createRoute(string $url, array $action): array
+    {
         return [$url, $action];
     }
 
     public static function execute(string $url, AllowedMethods $method): void
     {
-        if ($method === AllowedMethods::UNSUPPORTED){
+        if ($method === AllowedMethods::UNSUPPORTED) {
             die('Method not allowed');
         }
 
-        $action = RouterHelpers::findRequest($url,Router::$routes[$method->value]);
-
-        $controller = new $action[1][0]();
-        $controller->{$action[1][1]}();
+        $action = RouterHelpers::findRequest($url, Router::$routes[$method->value]);
+        if ($action) {
+            $controller = new $action[1][0]();
+            $controller->{$action[1][1]}();
+        }else{
+            $controller = new CommonViewController();
+            $controller->error404();
+        }
     }
 }

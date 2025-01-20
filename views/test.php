@@ -5,6 +5,6 @@
 <html>
 
 <body>
-To jest plik testowy i wszystko śmiga <?php $test ?>
+To jest plik testowy i wszystko śmiga
 </body>
 </html>

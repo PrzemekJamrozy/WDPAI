@@ -15,11 +15,13 @@ class Migrator implements Migration
     {
         /** @var CreateUserTableMigration[] $migrationsToRun */
         $this->migrationsToRun = [
-            new CreateUserTableMigration()
+            new CreateUserTableMigration(), // DONE
+            new CreatePermissionsTableMigration(), //DONE
+            new CreateUserToPermissionTableMigration() // DONE
         ];
     }
 
-    public function migrate()
+    public function migrate(): void
     {
         foreach ($this->migrationsToRun as $migration) {
             $migration->migrate();
