@@ -1,14 +1,5 @@
-/**
- *
- * @param {string} email
- */
-function validateEmail(email) {
-    return email.match(
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-}
-
-
+import {FormValidator} from "./validation/FormValidation.js";
+import {ToastManager} from "./ToastManager.js";
 document.querySelector(".login-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const formValues = {}
@@ -17,10 +8,10 @@ document.querySelector(".login-form").addEventListener("submit", (e) => {
         formValues[input.name] = input.value;
     })
 
-    const isValidEmail = validateEmail(formValues.email);
-    if (!isValidEmail) {
+    if (!FormValidator.isValidEmail(formValues.email) || !FormValidator.isValidInputs(formValues)) {
         return
     }
+
 
     fetch("/api/login", {
         method: "POST",
@@ -32,7 +23,7 @@ document.querySelector(".login-form").addEventListener("submit", (e) => {
                 console.log("działa");
             }
             else {
-                console.log(json.data.message);
+                new ToastManager().showToast(json.data.message,ToastManager.ERROR)
             }
         })
 })

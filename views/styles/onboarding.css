@@ -1,0 +1,38 @@
+.btn-back{
+    background-color: #b1b1b1;
+    color: #171717;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-back:hover {
+    background-color: #cdcdcd;
+}
+
+.onboarding-btn-group{
+    margin-top: 1rem;
+}
+
+.onboarding-btn-group > button + button{
+    margin-top: .5rem;
+}
+
+.container h2{
+    text-align: center;
+}
+
+.removed{
+    display: none;
+}
+
+.onboarding-textarea{
+    width: 100%;
+    height: 10rem;
+    resize: none;
+}

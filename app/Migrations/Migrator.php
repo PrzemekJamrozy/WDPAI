@@ -17,7 +17,8 @@ class Migrator implements Migration
         $this->migrationsToRun = [
             new CreateUserTableMigration(), // DONE
             new CreatePermissionsTableMigration(), //DONE
-            new CreateUserToPermissionTableMigration() // DONE
+            new CreateUserToPermissionTableMigration(), // DONE
+            new CreateUserProfileTableMigration()
         ];
     }
 

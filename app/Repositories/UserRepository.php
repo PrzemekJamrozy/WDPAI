@@ -14,7 +14,7 @@ class UserRepository extends BaseRepository
 
     public function createUser(string $name, string $surname, string $email, string $password, string $sex): bool
     {
-        $stmt = $this->database->connection->prepare("INSERT INTO users (name,surname, email, password, sex) VALUES (:name, :surname ,:email, :password, :sex)");
+        $stmt = $this->database->connection->prepare("INSERT INTO users (name,surname, email, password, sex, had_onboarding) VALUES (:name, :surname ,:email, :password, :sex, false)");
         return $stmt->execute([
             ":name" => $name,
             ":surname" => $surname,
@@ -42,13 +42,23 @@ class UserRepository extends BaseRepository
         ]);
     }
 
+    public function setUserAvatar(int $userId, string $avatar_url): bool
+    {
+        $sql = "UPDATE users SET avatar_url = :avatar WHERE id = :userId;";
+        return $this->database->connection->prepare($sql)->execute([
+            ":userId" => $userId,
+            ":avatar" => $avatar_url
+        ]);
+    }
+
     public function getUserByEmail(string $email): User|false
     {
         $stmt = $this->database->connection->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(":email", $email);
-        $stmt->execute();
+        $stmt->execute([
+            ":email" => $email
+        ]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(!$data){
+        if (!$data) {
             return false;
         }
         return User::fromData($data);
@@ -62,7 +72,7 @@ class UserRepository extends BaseRepository
         ]);
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(!$data){
+        if (!$data) {
             return false;
         }
         return User::fromData($data);

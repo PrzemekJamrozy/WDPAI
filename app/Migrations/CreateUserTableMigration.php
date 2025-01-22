@@ -22,7 +22,9 @@ class CreateUserTableMigration implements Migration
                     surname VARCHAR(50) NOT NULL,
                     email VARCHAR(100) NOT NULL UNIQUE,
                     password VARCHAR(255) NOT NULL,
-                    sex VARCHAR(10) NOT NULL
+                    sex VARCHAR(10) NOT NULL,
+                    had_onboarding BOOLEAN NOT NULL DEFAULT FALSE,
+                    avatar_url VARCHAR(400) UNIQUE
             );";
 
         $this->database->connection->exec($statement);

@@ -1,0 +1,28 @@
+body{
+    overflow: hidden;
+}
+
+.toast{
+    position: absolute;
+    top: 1rem;
+    width: 20rem;
+    height: 6rem;
+}
+
+.hidden{
+    right: -21rem;
+    transition: right 0.5s linear;
+}
+
+.visible{
+    right: 1rem;
+    transition: right 0.5s linear;
+}
+
+.toast-error{
+    background-color: red;
+}
+
+.toast-success{
+    background-color: green;
+}

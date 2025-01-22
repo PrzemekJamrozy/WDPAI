@@ -12,8 +12,10 @@ class User extends Model
     public string $email;
     public string $password;
     public UserSex $sex;
+    public bool $hadOnboarding;
 
-    public function __construct(int $id, string $name, string $surname, string $email, string $password, UserSex $sex)
+    public function __construct(int $id, string $name, string $surname, string $email, string $password, UserSex $sex,
+    bool $hadOnboarding)
     {
         $this->id = $id;
         $this->name = $name;
@@ -21,6 +23,7 @@ class User extends Model
         $this->email = $email;
         $this->password = $password;
         $this->sex = $sex;
+        $this->hadOnboarding = $hadOnboarding;
     }
 
 
@@ -33,6 +36,7 @@ class User extends Model
             $data['email'],
             $data['password'],
             UserSex::tryFrom($data['sex']) ?? UserSex::NOT_SPECIFIED,
+            $data['had_onboarding']
         );
     }
 

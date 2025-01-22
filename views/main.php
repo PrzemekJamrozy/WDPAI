@@ -5,6 +5,6 @@
     <title>Main page</title>
 </head>
 <body>
-    To jest widok główny nie zalogowany
+To jest widok główny zalogowany
 </body>
 </html>
