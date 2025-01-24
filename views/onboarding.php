@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
+    <title>DateSpark</title>
     <link rel="stylesheet" href="/views/styles/common.css"/>
     <link rel="stylesheet" href="/views/styles/common-onboarding.css">
     <link rel="stylesheet" href="/views/styles/onboarding.css">
@@ -17,6 +17,7 @@
         <?php include "./views/onboarding/onboarding-step-two.php" ?>
         <?php include "./views/onboarding/onboarding-step-three.php" ?>
         <?php include "./views/onboarding/onboarding-step-four.php" ?>
+        <?php include "./views/onboarding/onboarding-step-five.php" ?>
 
         <div class="onboarding-btn-group">
             <button type="button" class="onboarding-back-btn btn-back removed">Wróć</button>

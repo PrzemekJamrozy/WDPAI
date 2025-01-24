@@ -11,7 +11,7 @@ abstract class BaseAdminController
 {
     protected function hasAdminPermission(): void
     {
-        $user = AuthHelper::getUserFromSessionSession();
+        $user = AuthHelper::getUserFromSession();
         $result = PermissionRepository::provideRepository()->hasPermission($user, Permissions::PERMISSION_ADMIN);
         if (!$result) {
             die(

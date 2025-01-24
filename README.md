@@ -14,9 +14,10 @@ Get PHP container id (form docker desktop or from terminal) and execute
 docker exec -it {container_id} sh
 ```
 
-While in container run migration script 
+While in container run migration script one after another (order matter here)
 ```
 ./migrate.sh
+./seed.sh
 ```
 
 After that navigate to localhost:8000 

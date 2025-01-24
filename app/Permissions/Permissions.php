@@ -2,9 +2,9 @@
 
 namespace Permissions;
 
-class Permissions
+enum Permissions: string
 {
-    const PERMISSION_ADMIN = 'PERMISSION_ADMIN';
-    const PERMISSION_USER = 'PERMISSION_USER';
+    case PERMISSION_ADMIN = 'PERMISSION_ADMIN';
+    case PERMISSION_USER = 'PERMISSION_USER';
 
 }

@@ -5,5 +5,5 @@ namespace Models;
 abstract class Model
 {
 
-    public abstract function toApiResponse(): array;
+    public abstract function toApiResponse(array $with = []): array;
 }

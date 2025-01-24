@@ -3,6 +3,8 @@
 namespace Repositories;
 
 use Enums\UserSex;
+use Models\UserProfile;
+use PDO;
 
 class UserProfilesRepository extends BaseRepository
 {
@@ -11,15 +13,39 @@ class UserProfilesRepository extends BaseRepository
         return 'user_profiles';
     }
 
-    public function createUserProfile(int $userId, UserSex $preferredSex, string $userBio, string $fbLink, string $igLink): bool{
+    public function createUserProfile(int $userId, UserSex $preferredSex, string $userBio, string $fbLink, string $igLink): bool
+    {
         $sql = "INSERT INTO users_profiles (user_id, preferred_sex, user_bio, facebook_link, instagram_link) VALUES (:userId, :preferredSex, :userBio, :facebookLink, :instagramLink)";
         return $this->database->connection->prepare($sql)->execute([
             'userId' => $userId,
-            'preferredSex' => $preferredSex,
+            'preferredSex' => $preferredSex->value,
             'userBio' => $userBio,
             'facebookLink' => $fbLink,
             'instagramLink' => $igLink
         ]);
+    }
+
+    /**
+     * @param array<int,int> $userIds
+     * @return array<int, UserProfile>
+     */
+    public function getUserProfiles(array $userIds): array
+    {
+        $userProfiles = [];
+        foreach ($userIds as $userId) {
+            $userProfiles[] =  $this->getUserProfile($userId);
+        }
+        return $userProfiles;
+    }
+
+    public function getUserProfile(int $userId): UserProfile
+    {
+        $sql = "SELECT * FROM users_profiles WHERE user_id = :userId";
+        $stmt = $this->database->connection->prepare($sql);
+        $stmt->execute([
+            'userId' => $userId
+        ]);
+        return UserProfile::fromData($stmt->fetch(PDO::FETCH_ASSOC));
     }
 
 }

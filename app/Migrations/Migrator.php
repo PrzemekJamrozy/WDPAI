@@ -7,18 +7,18 @@ class Migrator implements Migration
 {
 
     /**
-     * @var CreateUserTableMigration[]
+     * @var Migration[]
      */
     private array $migrationsToRun;
 
     public function __construct()
     {
-        /** @var CreateUserTableMigration[] $migrationsToRun */
         $this->migrationsToRun = [
             new CreateUserTableMigration(), // DONE
             new CreatePermissionsTableMigration(), //DONE
             new CreateUserToPermissionTableMigration(), // DONE
-            new CreateUserProfileTableMigration()
+            new CreateUserProfileTableMigration(),
+            new CreateUserMatchesTableMigration()
         ];
     }
 

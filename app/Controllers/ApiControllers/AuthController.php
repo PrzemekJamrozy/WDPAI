@@ -48,6 +48,7 @@ class AuthController
 
     public function register(): void
     {
+        //TODO: assign permission to user
         $data = RequestHelper::getPostData();
         RequestHelper::validateInput(['name', 'surname', 'email', 'password', 'sex'], $data);
 

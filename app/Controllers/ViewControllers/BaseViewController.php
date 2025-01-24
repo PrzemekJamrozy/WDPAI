@@ -2,6 +2,10 @@
 
 namespace Controllers\ViewControllers;
 
+use Permissions\Permissions;
+use Repositories\PermissionRepository;
+use Utils\Helpers\AuthHelper;
+
 abstract class BaseViewController
 {
     const BASE_VIEW_DIR = __DIR__ . "/../../../views";
@@ -22,4 +26,9 @@ abstract class BaseViewController
         }
     }
 
+    protected function hasAdminPermission(): bool
+    {
+        $user = AuthHelper::getUserFromSession();
+        return PermissionRepository::provideRepository()->hasPermission($user, Permissions::PERMISSION_ADMIN);
+    }
 }

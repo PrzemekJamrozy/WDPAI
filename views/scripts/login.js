@@ -20,10 +20,10 @@ document.querySelector(".login-form").addEventListener("submit", (e) => {
         .then(response => response.json())
         .then(json => {
             if (json.success) {
-                console.log("działa");
+                window.location.href = '/'
             }
             else {
-                new ToastManager().showToast(json.data.message,ToastManager.ERROR)
+                new ToastManager().showToast('Niepoprawne hasło lub email',ToastManager.ERROR)
             }
         })
 })

@@ -1,4 +1,4 @@
-<div class="toast hidden toast-error">
-    <p class="toast-text">Tekst</p>
-    <button class="toast-close">Close</button>
+<div class="toast hidden" id="toast">
+    <span class="toast-text">Wiadomość toasta</span>
+    <button class="toast-close">&times;</button>
 </div>

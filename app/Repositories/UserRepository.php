@@ -2,6 +2,7 @@
 
 namespace Repositories;
 
+use Enums\UserSex;
 use Models\User;
 use PDO;
 
@@ -51,6 +52,15 @@ class UserRepository extends BaseRepository
         ]);
     }
 
+    public function setUserOnboardingStatus(int $userId, bool $isOnboardingDone): bool
+    {
+        $sql = "UPDATE users SET had_onboarding = :isOnboardingDone WHERE id = :userId;";
+        return $this->database->connection->prepare($sql)->execute([
+            ":userId" => $userId,
+            ":isOnboardingDone" => $isOnboardingDone
+        ]);
+    }
+
     public function getUserByEmail(string $email): User|false
     {
         $stmt = $this->database->connection->prepare("SELECT * FROM users WHERE email = :email");
@@ -76,6 +86,25 @@ class UserRepository extends BaseRepository
             return false;
         }
         return User::fromData($data);
+    }
+
+    /**
+     * @param UserSex $userSex
+     * @return array<int,User>
+     */
+    public function getUsersBySex(UserSex $userSex): array
+    {
+        $sql = 'SELECT * FROM users WHERE sex = :userSex';
+        $stmt = $this->database->connection->prepare($sql);
+        $stmt->execute([
+            ':userSex' => $userSex->value
+        ]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $users = [];
+        foreach ($data as $user) {
+            $users[] = User::fromData($user);
+        }
+        return $users;
     }
 
 

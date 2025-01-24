@@ -13,31 +13,39 @@ class RequestHelper
      *
      * @return array
      */
-    public static function getPostData(): array{
-        if(count($_POST) !== 0){
+    public static function getPostData(): array
+    {
+        if (count($_POST) !== 0) {
             return $_POST;
         }
         $input = file_get_contents('php://input');
-        if($input){
+        if ($input) {
             return json_decode($input, true);
         }
         return [];
     }
 
-    public static function getGetData(): array{
+    public static function getFilesFromRequest(): array
+    {
+        return $_FILES;
+    }
+
+    public static function getGetData(): array
+    {
         return $_GET;
     }
 
-    public static function validateInput(array $requiredFields, array $passedData): void{
+    public static function validateInput(array $requiredFields, array $passedData): void
+    {
         $isValid = true;
-        foreach($requiredFields as $field){
+        foreach ($requiredFields as $field) {
             $isValid = $isValid && isset($passedData[$field]);
         }
 
-        if(!$isValid){
+        if (!$isValid) {
             die(
-                (new ErrorResponse(['message' => 'Some fields were not provided']))
-                    ->toJson()
+            (new ErrorResponse(['message' => 'Some fields were not provided']))
+                ->toJson()
             );
         }
     }

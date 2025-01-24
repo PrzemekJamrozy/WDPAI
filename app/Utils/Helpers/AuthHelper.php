@@ -35,7 +35,7 @@ class AuthHelper
         return isset($_SESSION['user_id']);
     }
 
-    public static function getUserFromSessionSession(): User
+    public static function getUserFromSession(): User
     {
         if (!isset($_SESSION['user_id'])) {
             die(

@@ -28,37 +28,37 @@ function provideStepTranslation(step) {
  * @param {number} step
  * @return {boolean}
  */
-function isStepDone(step){
-    switch (step){
+function isStepDone(step) {
+    switch (step) {
         case 1:
             const isFileUploaded = document.querySelector('.onboarding-input-img').files.length > 0
-            if(isFileUploaded){
+            if (isFileUploaded) {
                 return true
-            }else{
+            } else {
                 new ToastManager().showToast('Zdjęcie jest wymagane', ToastManager.ERROR)
                 return false
             }
         case 2:
             const isBioFilled = document.querySelector('.onboarding-textarea').value.length > 0
-            if(isBioFilled){
+            if (isBioFilled) {
                 return true
-            }else{
+            } else {
                 new ToastManager().showToast('Pole jest wymagane', ToastManager.ERROR)
                 return false
             }
         case 3:
-            const isFbLinkFilled = document.querySelector('.onboarding-textarea').value.length > 0
-            if(isFbLinkFilled){
+            const isFbLinkFilled = document.querySelector('.onboarding-fb-link').value.length > 0
+            if (isFbLinkFilled) {
                 return true
-            }else{
+            } else {
                 new ToastManager().showToast('Pole jest wymagane', ToastManager.ERROR)
                 return false
             }
         case 4:
-            const isIgLinkFilled = document.querySelector('.onboarding-textarea').value.length > 0
-            if(isIgLinkFilled){
+            const isIgLinkFilled = document.querySelector('.onboarding-ig-link').value.length > 0
+            if (isIgLinkFilled) {
                 return true
-            }else{
+            } else {
                 new ToastManager().showToast('Pole jest wymagane', ToastManager.ERROR)
                 return false
             }
@@ -79,10 +79,10 @@ function swapView(toShow, toHide) {
 
 
 //STEP ONE
-document.querySelector('.onboarding-input-img').addEventListener('change', function(e){
+document.querySelector('.onboarding-input-img').addEventListener('change', function (e) {
     const file = e.target.files[0]
     const reader = new FileReader()
-    reader.onload = (event) =>{
+    reader.onload = (event) => {
         document.querySelector('.onboarding-img-preview').src = event.target.result
         document.querySelector('.onboarding-img-preview').classList.remove('removed')
     }
@@ -90,7 +90,7 @@ document.querySelector('.onboarding-input-img').addEventListener('change', funct
 })
 
 //COMMON
-document.querySelector('.onboarding-back-btn').addEventListener('click', function(){
+document.querySelector('.onboarding-back-btn').addEventListener('click', function () {
     const currentStepElement = document.querySelector(`.onboarding-step-${provideStepTranslation(currentOnboardingStep)}`)
     const previousStepElement = document.querySelector(`.onboarding-step-${provideStepTranslation(currentOnboardingStep - 1)}`)
 
@@ -98,20 +98,20 @@ document.querySelector('.onboarding-back-btn').addEventListener('click', functio
 
     currentOnboardingStep -= 1
 
-    if( currentOnboardingStep === 1){
+    if (currentOnboardingStep === 1) {
         this.classList.add('removed')
     }
 
-    if(currentOnboardingStep < finalOnboardingStep){
+    if (currentOnboardingStep < finalOnboardingStep) {
         document.querySelector('.onboarding-finish-btn').classList.add('removed')
         document.querySelector('.onboarding-next-btn').classList.remove('removed')
     }
 
 })
 
-document.querySelector('.onboarding-next-btn').addEventListener('click', function(){
+document.querySelector('.onboarding-next-btn').addEventListener('click', function () {
     // If step was not done correctly disallow to go to next step
-    if(!isStepDone(currentOnboardingStep)){
+    if (!isStepDone(currentOnboardingStep)) {
         return
     }
 
@@ -125,15 +125,14 @@ document.querySelector('.onboarding-next-btn').addEventListener('click', functio
 
     document.querySelector('.onboarding-back-btn').classList.remove('removed')
 
-    if(currentOnboardingStep === finalOnboardingStep){
+    if (currentOnboardingStep === finalOnboardingStep) {
         document.querySelector('.onboarding-finish-btn').classList.remove('removed')
         this.classList.add('removed')
     }
 })
 
-document.querySelector('.onboarding-form').addEventListener('click', function(e){
+document.querySelector('.onboarding-form').addEventListener('submit', function (e) {
     e.preventDefault()
-
     const formValues = new FormData()
     const inputs = document.querySelectorAll("input");
     inputs.forEach(input => {
@@ -146,5 +145,12 @@ document.querySelector('.onboarding-form').addEventListener('click', function(e)
     const selectInput = document.querySelector('.onboarding-sex')
     formValues.append(selectInput.name, selectInput.value)
 
-    fetch()
+    fetch('/api/user/onboarding', {
+        method: "POST",
+        body: formValues
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            document.location.reload()
+        })
 })

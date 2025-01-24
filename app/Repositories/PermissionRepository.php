@@ -4,6 +4,7 @@ namespace Repositories;
 
 use Models\User;
 use PDO;
+use Permissions\Permissions;
 
 class PermissionRepository extends BaseRepository
 {
@@ -85,7 +86,7 @@ class PermissionRepository extends BaseRepository
         ]);
     }
 
-    public function hasPermission(User $user, string $permissionName): bool
+    public function hasPermission(User $user, Permissions $permissionName): bool
     {
         $sql = "SELECT 
                 u.id AS user_id,
@@ -104,7 +105,7 @@ class PermissionRepository extends BaseRepository
 
         $stmt = $this->database->connection->prepare($sql);
         $stmt->execute([
-            ':permissionName' => $permissionName,
+            ':permissionName' => $permissionName->value,
             ':userId' => $user->id
         ]);
         return count($stmt->fetchAll(PDO::FETCH_ASSOC)) > 0;
