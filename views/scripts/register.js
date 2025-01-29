@@ -55,7 +55,7 @@ document.querySelector('.register-form').addEventListener('submit', function (ev
     }).then(response => response.json())
         .then(json => {
             if (json.success) {
-                console.log("register success");
+                window.location.href = '/login'
             }else{
                 new ToastManager().showToast(json.data.message, ToastManager.ERROR)
             }

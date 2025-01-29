@@ -3,6 +3,7 @@
 namespace Controllers\ApiControllers;
 
 use Models\User;
+use Repositories\PermissionRepository;
 use Repositories\UserRepository;
 use Responses\ErrorResponse;
 use Responses\SuccessResponse;
@@ -48,7 +49,6 @@ class AuthController
 
     public function register(): void
     {
-        //TODO: assign permission to user
         $data = RequestHelper::getPostData();
         RequestHelper::validateInput(['name', 'surname', 'email', 'password', 'sex'], $data);
 
@@ -64,6 +64,12 @@ class AuthController
         $result = $repository
             ->createUser($data['name'], $data['surname'], $data['email'], AuthHelper::hashPassword($data['password']), $data['sex']);
 
+        $user = UserRepository::provideRepository()
+            ->getUserByEmail($data['email']);
+
+        // Permission id 2 is always PERMISSION_USER after init seeding
+        PermissionRepository::provideRepository()
+            ->assignPermissionToUser($user->id, 2);
 
         if ($result) {
             unset($data['password']);

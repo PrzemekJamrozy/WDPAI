@@ -4,6 +4,8 @@ namespace Controllers\ApiControllers;
 
 use Enums\UserSex;
 use Exception;
+use Models\Permission;
+use Repositories\PermissionRepository;
 use Repositories\UserProfilesRepository;
 use Repositories\UserRepository;
 use Responses\ErrorResponse;
@@ -21,8 +23,16 @@ class UserController
         $user = AuthHelper::getUserFromSession();
         $userProfile = UserProfilesRepository::provideRepository()
             ->getUserProfile($user->id);
-        echo (new SuccessResponse($user->toApiResponse(['userProfile' => $userProfile->toApiResponse()])))
-            ->toJson();
+
+        $userPerms = PermissionRepository::provideRepository()
+            ->getUsersPermissions($user->id);
+
+        $userPerms = array_map(fn(Permission $perm) => $perm->toApiResponse(), $userPerms);
+
+        echo (new SuccessResponse($user->toApiResponse([
+            'userProfile' => $userProfile->toApiResponse(),
+            'permissions' => $userPerms
+        ])))->toJson();
     }
 
     /**
@@ -66,7 +76,7 @@ class UserController
             ->toJson();
     }
 
-    public function editUser(): void
+    public function updateUser(): void
     {
         $data = array_merge(RequestHelper::getPostData(), RequestHelper::getFilesFromRequest());
         RequestHelper::validateInput([
@@ -79,8 +89,36 @@ class UserController
             'avatar',
         ], $data);
 
+        $saveResult = FileHelper::uploadAvatar($data['avatar']);
 
+        if (!$saveResult) {
+            echo (new ErrorResponse(['message' => "Couldn't upload avatar"]))
+                ->toJson();
+            return;
+        }
+        $user = AuthHelper::getUserFromSession();
 
+        $result = DatabaseHelper::transaction(function () use ($user, $data, $saveResult) {
+            $userProfileResult = UserProfilesRepository::provideRepository()
+                ->updateUserProfile($user->id, UserSex::from($data['preferredSex']), $data['bio'], $data['fbLink'], $data['igLink']);
+
+            $userEditResult = UserRepository::provideRepository()
+                ->updateUser($user->id, $user->name, $user->surname, $data['email'], AuthHelper::hashPassword($data['password']), $user->sex);
+
+            $setUserAvatar = UserRepository::provideRepository()
+                ->setUserAvatar($user->id, $saveResult);
+
+            return $userProfileResult && $setUserAvatar && $userEditResult;
+        });
+
+        if (!$result) {
+            echo (new ErrorResponse(['message' => "Couldn't update user"]))
+                ->toJson();
+            return;
+        }
+
+        echo (new SuccessResponse([]))
+            ->toJson();
     }
 
     public function deleteUser(): void
@@ -94,6 +132,7 @@ class UserController
             echo (new ErrorResponse(['message' => "Couldn't delete user"]))
                 ->toJson();
         } else {
+            AuthHelper::destroyUserSession();
             echo (new SuccessResponse([]))
                 ->toJson();
         }

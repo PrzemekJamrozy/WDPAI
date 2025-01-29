@@ -25,7 +25,7 @@ class UserRepository extends BaseRepository
         ]);
     }
 
-    public function updateUser(int $userId, string $name, string $surname, string $email, string $password, string $sex): bool
+    public function updateUser(int $userId, string $name, string $surname, string $email, string $password, UserSex $sex): bool
     {
         $sql = "UPDATE users SET 
                 name = :name,
@@ -39,7 +39,7 @@ class UserRepository extends BaseRepository
             ':surname' => $surname,
             ':email' => $email,
             ':password' => $password,
-            ':sex' => $sex
+            ':sex' => $sex->value
         ]);
     }
 

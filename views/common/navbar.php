@@ -11,7 +11,7 @@
         <a href="/user-profile" class="nav-icon" title="Profil użytkownika">
             <img src="https://img.icons8.com/ios-filled/24/ffffff/user.png" alt="Profil użytkownika">
         </a>
-        <a href="/admin-panel" class="nav-icon" title="Panel administracyjny">
+        <a href="/admin-panel" class="nav-icon admin-panel" title="Panel administracyjny">
             <img src="https://img.icons8.com/ios-filled/24/ffffff/settings.png" alt="Panel administracyjny">
         </a>
 
@@ -27,7 +27,7 @@
     <div class="mobile-menu" id="mobile-menu">
         <a href="/matches">Dopasowania</a>
         <a href="/user-profile">Profil użytkownika</a>
-        <a href="/admin-panel">Panel administracyjny</a>
+        <a href="/admin-panel" class="admin-panel-mobile">Panel administracyjny</a>
         <span class="logout-mobile">
             Wyloguj
         </span>

@@ -2,6 +2,7 @@
 
 namespace Repositories;
 
+use Models\Permission;
 use Models\User;
 use PDO;
 use Permissions\Permissions;
@@ -14,7 +15,7 @@ class PermissionRepository extends BaseRepository
     }
 
 
-    public function getUsersPermissions(int $userId): array|false
+    public function getUsersPermissions(int $userId): array
     {
         $sql = "SELECT 
     u.id AS user_id,
@@ -37,7 +38,20 @@ class PermissionRepository extends BaseRepository
             ':user_id' => $userId
         ]);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($data)) {
+            return [];
+        }
+
+        $perms = [];
+        foreach ($data as $row) {
+            $perms[] = Permission::fromData([
+                'id' => $row['permission_id'],
+                'permission_name' => $row['permission_name'],
+            ]);
+        }
+        return $perms;
     }
 
     public function assignPermissionToUser(int $userId, int $permissionId): bool
@@ -71,10 +85,8 @@ class PermissionRepository extends BaseRepository
      */
     public function syncPermissionsToUser(int $userId, array $permissionsId): bool
     {
-        return $this->asTransaction(function () use ($userId, $permissionsId) {
-            $this->deleteUserPermissions($userId);
+        return $this->deleteUserPermissions($userId) &&
             $this->assignPermissionsToUser($userId, $permissionsId);
-        });
     }
 
     public function deleteUserPermissions(int $userId): bool

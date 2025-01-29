@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="views/styles/user-profile.css">
     <link rel="stylesheet" href="views/styles/edit-profile.css">
     <link rel="stylesheet" href="views/styles/navbar.css">
+    <link rel="stylesheet" href="views/styles/toast.css">
 </head>
 <body>
 <?php include './views/common/navbar.php'?>
+<?php include './views/common/toast.php'?>
 <div class="container" id="edit-profile">
     <h1>Edytuj Profil</h1>
-    <form action="/save-profile" method="POST" enctype="multipart/form-data">
+    <form class="edit-profile-form">
         <label>Link do Facebooka: <input type="url" name="fbLink"></label><br>
         <label>Link do Instagrama: <input type="url" name="igLink"></label><br>
         <label>Bio: <textarea name="bio"></textarea></label><br>
@@ -25,12 +27,12 @@
         </label><br>
         <label>Email: <input type="email" name="email"></label><br>
         <label>Hasło: <input type="password" name="password"></label><br>
-        <label>Avatar: <input type="file" name="avatar"></label><br>
+        <label>Avatar: <input type="file" name="avatar" class="edit-profile-avatar"></label><br>
         <button type="submit" class="button">Zapisz</button>
     </form>
 </div>
 
 <script src="/views/scripts/Navbar.js"></script>
-<script src="/views/scripts/EditProfile.js"></script>
+<script type="module" src="/views/scripts/EditProfile.js"></script>
 </body>
 </html>

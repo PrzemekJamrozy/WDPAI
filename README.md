@@ -23,3 +23,11 @@ While in container run migration script one after another (order matter here)
 After that navigate to localhost:8000 
 
 All available views can be seen in entries/views.php and all api endpoints can be seen in entries/api.php
+![img.png](img.png)
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+
+## Database schema
+![ERD.png](ERD.png)

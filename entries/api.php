@@ -16,6 +16,8 @@ Router::post('/api/logout', [AuthController::class, 'logout']);
 // USER
 Router::get('/api/user', [UserController::class, 'getCurrentUser']);
 Router::post('/api/user/onboarding', [UserController::class, 'finishUserOnboarding']);
+Router::post('/api/user/edit', [UserController::class, 'updateUser']);
+Router::post('/api/user/delete', [UserController::class, 'deleteUser']);
 
 
 // MATCHES
@@ -32,3 +34,5 @@ Router::post('/api/admin/create-user', [UserAdminController::class, 'createUser'
 Router::post('/api/admin/update-user', [UserAdminController::class, 'updateUser']);
 Router::post('/api/admin/delete-user', [UserAdminController::class, 'deleteUser']);
 Router::get('/api/admin/users', [UserAdminController::class, 'getUsers']);
+Router::get('/api/admin/user', [UserAdminController::class, 'getUser']);
+Router::get('/api/admin/permissions', [UserAdminController::class, 'getAllSystemPermissions']);

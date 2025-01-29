@@ -2,6 +2,7 @@
 
 use Controllers\ViewControllers\Admin\AdminViewController;
 use Controllers\ViewControllers\AuthViewController;
+use Controllers\ViewControllers\CommonViewController;
 use Controllers\ViewControllers\MainViewController;
 use Router\Router;
 

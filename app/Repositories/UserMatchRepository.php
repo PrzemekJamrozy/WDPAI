@@ -51,6 +51,31 @@ class UserMatchRepository extends BaseRepository
         ]);
     }
 
+
+    /**
+     * Returns matches that were made by user (first_user_id)
+     *
+     * @return array<int,UserMatch>|false
+     */
+    public function getUserIntentMatches(int $userId):array|false
+    {
+        $sql = "SELECT * FROM user_matches where user_first_id = :userId";
+        $stmt = $this->database->connection->prepare($sql);
+        $stmt->execute([
+            ':userId' => $userId
+        ]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if($data === false){
+            return false;
+        }
+        $matches = [];
+        foreach ($data as $userMatch){
+            $matches[] = UserMatch::fromData($userMatch);
+        }
+
+        return $matches;
+    }
+
     /**
      * @param int $userId
      * @return array<int, User>
@@ -66,7 +91,7 @@ class UserMatchRepository extends BaseRepository
                             WHEN user_second_id = :logged_user_id THEN user_first_id
                         END AS user_id
                     FROM user_matches
-                    WHERE :logged_user_id IN (user_first_id, user_second_id)
+                    WHERE :logged_user_id IN (user_first_id, user_second_id) AND show_match = TRUE
                 ) matched_users ON u.id = matched_users.user_id;';
 
         $stmt = $this->database->connection->prepare($sql);

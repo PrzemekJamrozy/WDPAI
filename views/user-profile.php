@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="views/styles/common.css">
     <link rel="stylesheet" href="views/styles/user-profile.css">
     <link rel="stylesheet" href="views/styles/navbar.css">
+    <link rel="stylesheet" href="views/styles/toast.css">
 </head>
 <body>
 <?php include "./views/common/navbar.php"?>
+<?php include "./views/common/toast.php"?>
 <div class="container" id="user-profile">
     <h1>Profil Użytkownika</h1>
     <div class="user-card">
@@ -20,7 +22,7 @@
             <p class="user__profile-email"><strong>Email:</strong> </p>
             <p class="user__profile-sex"><strong>Płeć:</strong> </p>
             <a href="/edit-profile" class="button">Edytuj Profil</a>
-            <a href="/delete-account" class="button">Usuń Konto</a>
+            <a href="#" class="button delete-account">Usuń Konto</a>
         </div>
     </div>
 </div>

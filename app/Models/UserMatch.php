@@ -5,22 +5,22 @@ namespace Models;
 class UserMatch extends Model
 {
 
-    public bool $id;
-    public bool $userFirstId;
-    public bool $userSecondId;
+    public int $id;
+    public int $userFirstId;
+    public int $userSecondId;
     public bool $firstWantMatch;
     public bool $secondWantMatch;
     public bool $showMatch;
 
     /**
-     * @param bool $id
-     * @param bool $userFirstId
-     * @param bool $userSecondId
+     * @param int $id
+     * @param int $userFirstId
+     * @param int $userSecondId
      * @param bool $firstWantMatch
      * @param bool $secondWantMatch
      * @param bool $showMatch
      */
-    public function __construct(bool $id, bool $userFirstId, bool $userSecondId, bool $firstWantMatch, bool $secondWantMatch, bool $showMatch)
+    public function __construct(int $id, int $userFirstId, int $userSecondId, bool $firstWantMatch, bool $secondWantMatch, bool $showMatch)
     {
         $this->id = $id;
         $this->userFirstId = $userFirstId;
@@ -44,7 +44,14 @@ class UserMatch extends Model
 
     public function toApiResponse(array $with = []): array
     {
-        // TODO: Implement toApiResponse() method.
+        return [
+            "id" => $this->id,
+            "userFirstId" => $this->userFirstId,
+            "userSecondId" => $this->userSecondId,
+            "firstWantMatch" => $this->firstWantMatch,
+            "secondWantMatch" => $this->secondWantMatch,
+            "showMatch" => $this->showMatch
+        ];
     }
 
 }

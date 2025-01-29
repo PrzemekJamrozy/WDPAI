@@ -5,6 +5,21 @@ document.addEventListener('DOMContentLoaded', function () {
     hamburger.addEventListener('click', function () {
         mobileMenu.classList.toggle('active');
     });
+
+    const adminPanelIcon = document.querySelector('.admin-panel')
+    const adminPanelMobile = document.querySelector('.admin-panel-mobile')
+
+    fetch('/api/user')
+        .then(res => res.json())
+        .then(res => {
+            const {permissions} = res.data
+            const requiredPerm = permissions.filter((value) => value.permissionName === "PERMISSION_ADMIN")
+
+            if(requiredPerm.length === 0){
+                adminPanelIcon.remove()
+                adminPanelMobile.remove()
+            }
+        })
 });
 
 function logout(){

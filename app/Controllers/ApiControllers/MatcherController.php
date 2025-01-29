@@ -3,6 +3,7 @@
 namespace Controllers\ApiControllers;
 
 use Models\User;
+use Models\UserMatch;
 use Models\UserProfile;
 use Repositories\UserMatchRepository;
 use Repositories\UserProfilesRepository;
@@ -15,6 +16,14 @@ use Utils\Helpers\RequestHelper;
 class MatcherController
 {
 
+    /**
+     * 1. Get user and it's preferred sex
+     * 2. Fetch all potential matches
+     * 3. Filter those which already has intent made by logged user
+     * 4. Include profile of each potential match
+     *
+     * @return void
+     */
     public function getPotentialMatches(): void
     {
         $user = AuthHelper::getUserFromSession();
@@ -24,6 +33,17 @@ class MatcherController
 
         $potentialMatches = UserRepository::provideRepository()
             ->getUsersBySex($userProfile->preferredSex);
+
+        $matchesDone = UserMatchRepository::provideRepository()
+            ->getUserIntentMatches($user->id);
+
+        $matchesDone = array_map(fn(UserMatch $match) => $match->userSecondId, $matchesDone);
+        $potentialMatches = array_filter($potentialMatches, function (User $potentialMatch) use ($matchesDone) {
+            if(in_array($potentialMatch->id, $matchesDone)) {
+                return false;
+            }
+            return true;
+        });
 
         $potentialMatchesProfiles = UserProfilesRepository::provideRepository()
             ->getUserProfiles(array_map(fn(User $user) => $user->id, $potentialMatches));
@@ -36,9 +56,7 @@ class MatcherController
 
         echo (new SuccessResponse($potentialMatches))
             ->toJson();
-        // Zrobić piorytet jeżeli dany użytkownik ma match'a od kogoś innego
         // Wykluczyć z listy użytkowników samego siebie oraz osoby które nie są zainteresowane płcią osoby która swipuje
-        // filtr osób które są są matchowane po stronie użytkownika
     }
 
     public function acceptMatch(): void

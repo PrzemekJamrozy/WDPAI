@@ -1,4 +1,3 @@
-/* Mobile-first styling */
 body {
     margin: 0;
     padding: 0;
@@ -93,7 +92,6 @@ footer {
     width: 100%;
 }
 
-/* Desktop view */
 @media (min-width: 768px) {
     .hero {
         display: flex;

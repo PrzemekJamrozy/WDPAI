@@ -11,8 +11,9 @@ class RouterHelpers
      */
     public static function findRequest(string $url, array $actions): array|false
     {
+        $url = explode('?', $url);
         $result = array_filter($actions, function (array $action) use ($url) {
-            return $action[0] === $url;
+            return $action[0] === $url[0];
         });
         if (count(array_values($result)) !== 0) {
             return array_values($result)[0];

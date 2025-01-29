@@ -35,7 +35,6 @@ RUN apk add --no-cache --virtual .run-deps $RUN_DEPS
 
 COPY ./php/local.ini /usr/local/etc/php/conf.d/local.ini
 
-# Setup xdebug
 
 WORKDIR /app
 
