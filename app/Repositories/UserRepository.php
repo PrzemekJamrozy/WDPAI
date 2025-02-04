@@ -15,7 +15,7 @@ class UserRepository extends BaseRepository
 
     public function createUser(string $name, string $surname, string $email, string $password, string $sex): bool
     {
-        $stmt = $this->database->connection->prepare("INSERT INTO users (name,surname, email, password, sex, had_onboarding) VALUES (:name, :surname ,:email, :password, :sex, false)");
+        $stmt = $this->database->connection->prepare("INSERT INTO users (name,surname, email, password, sex, had_onboarding, avatar_url) VALUES (:name, :surname ,:email, :password, :sex, false, '')");
         return $stmt->execute([
             ":name" => $name,
             ":surname" => $surname,

@@ -13,10 +13,10 @@ class User extends Model
     public string $password;
     public UserSex $sex;
     public bool $hadOnboarding;
-    public string $avatarUrl;
+    public ?string $avatarUrl;
 
     public function __construct(int $id, string $name, string $surname, string $email, string $password, UserSex $sex,
-    bool $hadOnboarding, string $avatarUrl)
+    bool $hadOnboarding, ?string $avatarUrl)
     {
         $this->id = $id;
         $this->name = $name;
